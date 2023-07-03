@@ -18,16 +18,15 @@ int bellmonFord(int V, int m, int S, int dest, vector<vector<int>> &edges) {
             if(noupdate) return distance[dest];
         }
         
-        bool noupdate = true;
         for(auto i : edges){
             int u = i[0];
             int v = i[1];
             int dist = i[2];
                 
             if(distance[u] != 1e9 && distance[u] + dist < distance[v]){
-                noupdate = false;
+                return INT_MIN;
             }
         }
-        if(!noupdate) return INT_MIN;
+        
         return distance[dest];
 }
