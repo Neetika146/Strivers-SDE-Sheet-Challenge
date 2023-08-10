@@ -1,21 +1,18 @@
 #include <stack>
 #include <bits/stdc++.h>
-vector<int> nextSmallerElement(vector<int> &A, int n)
-{
-    vector <int> ans;
-    stack <int> st;
-    for (int i = n-1; i >=0; i--){
-        while(!st.empty() && A[i] <= st.top()){
-            st.pop();
+vector<int> Solution::prevSmaller(vector<int> &nums) {
+    int n = nums.size();
+      vector < int > nge(n, -1);
+      stack < int > st;
+      for (int i =  0; i < n; i++) {
+        while (!st.empty() && st.top() >= nums[i % n]) {
+          st.pop();
         }
-        if(st.empty()){
-            ans.push_back(-1);
+
+        if (i < n) {
+          if (!st.empty()) nge[i] = st.top();
         }
-        else{
-            ans.push_back(st.top());
-        }
-        st.push(A[i]);
-    }
-    reverse(ans.begin(), ans.end());
-    return ans;
+        st.push(nums[i % n]);
+      }
+      return nge;
 }
