@@ -1,20 +1,32 @@
-visited[i][j] = 1;
-        queue<pair<int,int>> q;
-        q.push({i, j});
-
-        while(!q.empty()){
-            int x = q.front().first;
-            int y = q.front().second;
-            q.pop();
-
-            if(x+1<m && !visited[x+1][y] && board[x+1][y] == 'X'){
-                visited[x+1][y] = 1;
-                q.push({x+1, y});
+class Solution {
+  public:
+    vector<int> maxCombinations(int N, int K, vector<int> &A, vector<int> &B) {
+        sort(A.begin(), A.end());
+        sort(B.begin(), B.end());
+        
+        vector<int> ans;
+        priority_queue<pair<int,pair<int, int>>>pq;
+        pq.push({A[N-1]+ B[N-1], {N-1, N-1}});
+        set<pair<int,int>>s;
+        s.insert({N-1, N-1});
+        
+        while(K--){
+            int sum = pq.top().first;
+            int i = pq.top().second.first;
+            int j = pq.top().second.second;
+            ans.push_back(sum);
+            pq.pop();
+            
+            if(i >= 1 && s.find({i-1, j}) == s.end()) {
+                pq.push({A[i-1] + B[j],{i-1,j}});
+                s.insert({i-1, j});
             }
-
-            if(y+1<n && !visited[x][y+1] && board[x][y+1] == 'X'){
-                visited[x][y+1] = 1;
-                q.push({x, y+1});
+            if(j >= 1 && s.find({i, j-1}) == s.end()) {
+                pq.push({A[i] + B[j-1], {i, j-1}});
+                s.insert({i, j-1});
             }
-
         }
+        return ans;
+        // code here
+    }
+};
